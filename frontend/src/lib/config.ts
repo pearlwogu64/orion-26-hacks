@@ -9,10 +9,9 @@ export const USE_MOCK = false;
 export const MOCK_SCENARIO: string = "success";
 
 // Get this from Backend 1 (Render/Railway URL). No trailing slash. NOT localhost.
-export const API_BASE_URL = "https://fresh-check-api.onrender.com";
-
+export const API_BASE_URL = "http://192.168.20.91:8000";
 // Free hosting can take a while to wake up, so be generous.
-export const TIMEOUT_MS = 70000;
+export const TIMEOUT_MS = 10000;
 
 export const DISCLAIMER = "Checks freshness, not foodborne illness";
 // "" = normal. Or "not_food" | "unclear_image" | "multiple_items" | "server_error" to force an error from the real server.

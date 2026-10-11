@@ -1,3 +1,4 @@
+import { Platform } from "react-native";
 import { ImageManipulator, SaveFormat } from "expo-image-manipulator";
 import { API_BASE_URL, USE_MOCK, MOCK_SCENARIO, TIMEOUT_MS, FORCE_ERROR } from "./config";
 import successMock from "../mocks/success";
@@ -37,8 +38,16 @@ export async function analyzePhoto(uri: string): Promise<AnalyzeResult> {
 
   const small = await compressImage(uri);
   const form = new FormData();
-  // Field name must be "image". Do NOT set a Content-Type header yourself.
- form.append("image", new File(small));
+  if (Platform.OS === "web") {
+    const blob = await (await fetch(small)).blob();
+    form.append("image", blob, "photo.jpg");
+  } else {
+    form.append("image", {
+      uri: small,
+      name: "photo.jpg",
+      type: "image/jpeg",
+    } as any);
+  }
 
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), TIMEOUT_MS);
