@@ -11,10 +11,10 @@ export function Eyebrow({ children }: { children: ReactNode }) {
   return <Text style={styles.eyebrow}>{children}</Text>;
 }
 
-export function Pill({ children, dark }: { children: ReactNode; dark?: boolean }) {
+export function Pill({ children, dark, yellow }: { children: ReactNode; dark?: boolean; yellow?: boolean }) {
   return (
-    <View style={[styles.pill, dark && { backgroundColor: colors.primary }]}>
-      <Text style={[styles.pillText, dark && { color: colors.mint }]}>{children}</Text>
+    <View style={[styles.pill, dark && { backgroundColor: colors.primary }, yellow && { backgroundColor: colors.yellow }]}>
+      <Text style={[styles.pillText, dark && { color: colors.mint }, yellow && { color: colors.yellowText }]}>{children}</Text>
     </View>
   );
 }

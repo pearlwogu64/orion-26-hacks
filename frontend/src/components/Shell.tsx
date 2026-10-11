@@ -1,6 +1,6 @@
 // App frame: sidebar on wide screens (web/laptop), bottom tab bar on phones.
 import { ReactNode } from "react";
-import { View, Text, TouchableOpacity, ScrollView, StyleSheet, useWindowDimensions } from "react-native";
+import { View, Text, TouchableOpacity, ScrollView, Image, StyleSheet, useWindowDimensions } from "react-native";
 import { useRouter, usePathname } from "expo-router";
 import { colors } from "../lib/theme";
 import { DISCLAIMER } from "../lib/config";
@@ -37,9 +37,7 @@ export default function Shell({ children, footer }: { children: ReactNode; foote
       <View style={styles.row}>
         <View style={styles.sidebar}>
           <View style={styles.brand}>
-            <View style={styles.logo}>
-              <Text style={styles.logoText}>R</Text>
-            </View>
+            <Image source={require("../../assets/images/ripe-logo.png")} style={styles.logo} />
             <Text style={styles.brandName}>Ripe</Text>
           </View>
           {NAV.map((n) => {
@@ -88,8 +86,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 14, paddingTop: 20,
   },
   brand: { flexDirection: "row", alignItems: "center", gap: 10, marginBottom: 28, paddingHorizontal: 6 },
-  logo: { width: 34, height: 34, borderRadius: 10, backgroundColor: colors.primary, alignItems: "center", justifyContent: "center" },
-  logoText: { color: colors.mint, fontWeight: "800", fontSize: 16 },
+  logo: { width: 40, height: 40, resizeMode: "contain" },
   brandName: { fontSize: 20, fontWeight: "800", color: colors.text },
   navItem: { flexDirection: "row", alignItems: "center", gap: 10, paddingVertical: 11, paddingHorizontal: 12, borderRadius: 10, marginBottom: 4 },
   navItemActive: { backgroundColor: colors.primary },

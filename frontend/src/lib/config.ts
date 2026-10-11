@@ -9,7 +9,7 @@ export const USE_MOCK = false;
 export const MOCK_SCENARIO: string = "success";
 
 // Get this from Backend 1 (Render/Railway URL). No trailing slash. NOT localhost.
-export const API_BASE_URL = "http://192.168.20.91:8000";
+export const API_BASE_URL = "https://orion-26-hacks.onrender.com";
 // Free hosting can take a while to wake up, so be generous.
 export const TIMEOUT_MS = 10000;
 

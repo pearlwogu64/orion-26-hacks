@@ -3,6 +3,10 @@
 #     from recipes import router as recipes_router
 #     app.include_router(recipes_router)
 import json
+import os
+import urllib.parse
+import urllib.request
+from concurrent.futures import ThreadPoolExecutor
 from typing import List, Literal, Optional
 
 from fastapi import APIRouter, HTTPException
@@ -14,6 +18,9 @@ from pydantic import BaseModel
 MODEL = "gemini-3.5-flash-lite"
 
 client = genai.Client()  # reads GEMINI_API_KEY from the environment
+# Free key from https://unsplash.com/developers . If it is missing, falls back to TheMealDB (no key needed).
+UNSPLASH_ACCESS_KEY = os.getenv("UNSPLASH_ACCESS_KEY")
+_image_cache = {}
 router = APIRouter()
 
 
@@ -32,6 +39,7 @@ class Recipe(BaseModel):
     description: str
     ingredients: List[str]
     steps: List[str]
+    image_query: str
 
 
 class Hack(BaseModel):
@@ -43,6 +51,54 @@ class Hack(BaseModel):
 class RecipesResponse(BaseModel):
     recipes: List[Recipe]
     hacks: List[Hack]
+
+
+class RecipeOut(Recipe):
+    image_url: Optional[str] = None
+
+
+class RecipesOut(BaseModel):
+    recipes: List[RecipeOut]
+    hacks: List[Hack]
+
+
+def _get_json(url: str, headers: dict) -> dict:
+    req = urllib.request.Request(url, headers={"User-Agent": "Ripe/1.0", **headers})
+    with urllib.request.urlopen(req, timeout=5) as r:
+        return json.loads(r.read())
+
+
+def find_image(query: str) -> Optional[str]:
+    # Same dish twice? Reuse the photo so we don't burn Unsplash's 50/hour limit
+    if query in _image_cache:
+        return _image_cache[query]
+    url = None
+    if UNSPLASH_ACCESS_KEY:
+        try:
+            data = _get_json(
+                "https://api.unsplash.com/search/photos?"
+                + urllib.parse.urlencode({"query": query, "per_page": 1, "orientation": "landscape"}),
+                {"Authorization": f"Client-ID {UNSPLASH_ACCESS_KEY}"},
+            )
+            results = data.get("results", [])
+            if results:
+                url = results[0]["urls"]["small"]
+        except Exception as e:
+            print("unsplash error:", e)
+    if not url:
+        try:
+            data = _get_json(
+                "https://www.themealdb.com/api/json/v1/1/search.php?"
+                + urllib.parse.urlencode({"s": query}),
+                {},
+            )
+            meals = data.get("meals") or []
+            if meals:
+                url = meals[0]["strMealThumb"]
+        except Exception as e:
+            print("mealdb error:", e)
+    _image_cache[query] = url
+    return url
 
 
 PROMPT = """You are the rescue chef inside Ripe, an app that stops household food waste.
@@ -66,6 +122,7 @@ Rules for recipes:
 - ingredients: 3 to 7 items with amounts, like "2 ripe bananas".
 - steps: 3 to 6 short steps, each under 15 words.
 - difficulty: easy, medium or hard.
+- image_query: 2 to 4 words describing the finished dish for a stock photo search, like "banana bread loaf".
 
 Rules for hacks:
 - Practical storage tricks to make THIS item last longer (fridge, freezer, wrapping, keeping away
@@ -80,7 +137,7 @@ checks freshness only. If an item shows mold, do not suggest eating the moldy pa
 """
 
 
-@router.post("/recipes", response_model=RecipesResponse)
+@router.post("/recipes", response_model=RecipesOut)
 def get_recipes(req: RecipeRequest):
     prompt = PROMPT.format(
         name=req.name,
@@ -99,8 +156,12 @@ def get_recipes(req: RecipeRequest):
                 temperature=0.7,
             ),
         )
-        data = json.loads(resp.text)
-        return RecipesResponse(**data)
+        data = RecipesResponse(**json.loads(resp.text))
+        # Look up all 3 photos at the same time instead of one after another
+        with ThreadPoolExecutor(max_workers=3) as pool:
+            urls = list(pool.map(find_image, [r.image_query for r in data.recipes]))
+        recipes = [RecipeOut(**r.model_dump(), image_url=u) for r, u in zip(data.recipes, urls)]
+        return RecipesOut(recipes=recipes, hacks=data.hacks)
     except Exception as e:
         print("recipes error:", e)
         raise HTTPException(status_code=502, detail="Could not generate recipes")

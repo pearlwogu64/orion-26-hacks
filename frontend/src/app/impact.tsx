@@ -12,8 +12,8 @@ const LEVEL_NAMES = ["Sprout", "Seedling", "Pantry Guardian", "Waste Warrior", "
 const CATEGORY_COLORS: Record<string, string> = {
   fruit: "#1E4D36",
   vegetable: "#3E8A5E",
-  bread: "#C98F0A",
-  other: "#A8EBBE",
+  bread: "#F5C842",
+  other: "#C98F0A",
 };
 
 export default function ImpactScreen() {
@@ -54,14 +54,14 @@ export default function ImpactScreen() {
   return (
     <Shell>
       <View style={styles.hero}>
-        <Pill>Your impact</Pill>
+        <Pill yellow>Your impact</Pill>
         <Text style={styles.heroTitle}>Impact Dashboard</Text>
         <Text style={styles.heroSub}>Every item you log as saved adds to your totals, XP and streak.</Text>
       </View>
 
       <View style={styles.statGrid}>
-        {STATS.map((st) => (
-          <Card key={st.label} style={styles.stat}>
+        {STATS.map((st, i) => (
+          <Card key={st.label} style={[styles.stat, i % 2 === 1 && styles.statYellow]}>
             <Eyebrow>{st.label}</Eyebrow>
             <Text style={styles.statValue}>
               {st.value}
@@ -76,11 +76,11 @@ export default function ImpactScreen() {
         <Card style={styles.colCard}>
           <View style={styles.levelHead}>
             <View>
-              <Eyebrow>Gamified stewardship</Eyebrow>
-              <SectionTitle>{levelName}</SectionTitle>
+              <Eyebrow>{s.streak} day{s.streak === 1 ? "" : "s"} in a row</Eyebrow>
+              <SectionTitle>Streak</SectionTitle>
             </View>
             <View style={styles.levelBadge}>
-              <Text style={styles.levelBadgeText}>Level {s.level}</Text>
+              <Text style={styles.levelBadgeText}>Level {s.level} · {levelName}</Text>
             </View>
           </View>
 
@@ -187,19 +187,20 @@ const styles = StyleSheet.create({
   heroSub: { fontSize: 14, color: "#C9E6D3", marginTop: 6 },
   statGrid: { flexDirection: "row", flexWrap: "wrap", gap: 14, marginTop: 14 },
   stat: { flexGrow: 1, flexBasis: 160 },
+  statYellow: { backgroundColor: colors.yellowSoft, borderColor: colors.yellow },
   statValue: { fontSize: 30, fontWeight: "800", color: colors.text, marginTop: 8 },
   statUnit: { fontSize: 14, fontWeight: "500", color: colors.muted },
   twoCol: { flexDirection: "row", flexWrap: "wrap", gap: 14, marginTop: 14 },
   colCard: { flexGrow: 1, flexBasis: 320 },
   levelHead: { flexDirection: "row", justifyContent: "space-between", alignItems: "flex-start" },
-  levelBadge: { backgroundColor: colors.primary, borderRadius: 999, paddingHorizontal: 12, paddingVertical: 6 },
-  levelBadgeText: { color: colors.mint, fontWeight: "800", fontSize: 13 },
-  xpBox: { backgroundColor: colors.soft, borderRadius: 14, padding: 14, marginVertical: 16 },
+  levelBadge: { backgroundColor: colors.yellow, borderRadius: 999, paddingHorizontal: 12, paddingVertical: 6 },
+  levelBadgeText: { color: colors.yellowText, fontWeight: "800", fontSize: 13 },
+  xpBox: { backgroundColor: colors.yellowSoft, borderRadius: 14, padding: 14, marginVertical: 16 },
   xpRow: { flexDirection: "row", justifyContent: "space-between" },
   xpLabel: { fontSize: 13, fontWeight: "700", color: colors.text },
   xpNum: { fontSize: 13, fontWeight: "700", color: colors.primary },
   xpTrack: { height: 10, borderRadius: 5, backgroundColor: colors.border, marginTop: 10, overflow: "hidden" },
-  xpFill: { height: 10, borderRadius: 5, backgroundColor: colors.primary },
+  xpFill: { height: 10, borderRadius: 5, backgroundColor: colors.yellow },
   xpHint: { fontSize: 11, color: colors.muted, marginTop: 8 },
   week: { flexDirection: "row", gap: 6, marginTop: 10 },
   dayCol: { flex: 1, alignItems: "center" },
@@ -209,7 +210,7 @@ const styles = StyleSheet.create({
     alignItems: "center", justifyContent: "center", borderWidth: 1, borderColor: colors.border,
   },
   dayDone: { backgroundColor: colors.primary, borderColor: colors.primary },
-  dayToday: { borderColor: colors.primary, borderWidth: 2 },
+  dayToday: { borderColor: colors.yellow, borderWidth: 2, backgroundColor: colors.yellowSoft },
   dayMark: { fontSize: 16, fontWeight: "800", color: colors.muted },
   catRow: { marginTop: 14 },
   catTop: { flexDirection: "row", justifyContent: "space-between", marginBottom: 6 },

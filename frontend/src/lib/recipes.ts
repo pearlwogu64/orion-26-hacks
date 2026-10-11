@@ -9,6 +9,7 @@ export interface Recipe {
   description: string;
   ingredients: string[];
   steps: string[];
+  image_url?: string | null;
 }
 
 export interface Hack {

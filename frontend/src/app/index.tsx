@@ -49,7 +49,7 @@ export default function HomeScreen() {
 
   return (
     <Shell>
-      <Pill>Powered by Gemini vision</Pill>
+      <Pill yellow>Powered by Gemini vision</Pill>
       <Text style={styles.title}>Inspect Studio</Text>
       <Text style={styles.sub}>Is it still fresh? Photograph one item to get a freshness score and a plan to rescue it.</Text>
 
@@ -95,16 +95,16 @@ const styles = StyleSheet.create({
     width: 84, height: 84, borderRadius: 42, borderWidth: 2, borderColor: colors.mint,
     alignItems: "center", justifyContent: "center", marginBottom: 18,
   },
-  reticleInner: { width: 26, height: 26, borderRadius: 13, backgroundColor: colors.mint },
+  reticleInner: { width: 26, height: 26, borderRadius: 13, backgroundColor: colors.yellow },
   heroTitle: { fontSize: 20, fontWeight: "700", color: "#FFFFFF", textAlign: "center" },
   heroSub: { fontSize: 14, color: "#AEB8B2", marginTop: 6, textAlign: "center" },
   btnRow: { flexDirection: "row", flexWrap: "wrap", gap: 12, marginTop: 22, justifyContent: "center" },
-  btn: { backgroundColor: colors.mint, paddingVertical: 14, paddingHorizontal: 26, borderRadius: 12, minWidth: 170, alignItems: "center" },
-  btnText: { color: colors.mintText, fontSize: 16, fontWeight: "700" },
+  btn: { backgroundColor: colors.yellow, paddingVertical: 14, paddingHorizontal: 26, borderRadius: 12, minWidth: 170, alignItems: "center" },
+  btnText: { color: colors.yellowText, fontSize: 16, fontWeight: "700" },
   btnAlt: { borderWidth: 1.5, borderColor: "#5A665F", paddingVertical: 14, paddingHorizontal: 26, borderRadius: 12, minWidth: 170, alignItems: "center" },
   btnAltText: { color: "#FFFFFF", fontSize: 16, fontWeight: "600" },
   steps: { flexDirection: "row", flexWrap: "wrap", gap: 14, marginTop: 18 },
-  step: { flexGrow: 1, flexBasis: 220 },
+  step: { flexGrow: 1, flexBasis: 220, borderTopWidth: 4, borderTopColor: colors.yellow },
   stepTitle: { fontSize: 17, fontWeight: "700", color: colors.text, marginTop: 8 },
   stepBody: { fontSize: 14, color: colors.muted, marginTop: 4, lineHeight: 20 },
   dev: { marginTop: 16, fontSize: 11, color: colors.muted, textAlign: "center" },
