@@ -1,4 +1,4 @@
-**Ripe 🍓**
+# Ripe 🍓
 
 Ripe is a food-waste app for fruits and veggies that tells you which produce in your fridge will spoil first, before it does. Snap a photo of your grocery receipt or your fridge, and Ripe picks out your produce, estimates how fresh each item is, and ranks everything by how soon it’ll go bad. A model trained on fruits and vegetables across rot stages, from fresh to inedible, handles the freshness estimate. Ripe then suggests recipes that use up your at-risk produce first, so less ends up in the trash and more ends up on your plate.
 
