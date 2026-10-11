@@ -13,6 +13,8 @@ load_dotenv()
 client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
 
 app = FastAPI()
+from recipes import router as recipes_router
+app.include_router(recipes_router)
 
 # let the Expo frontend talk to this backend
 app.add_middleware(

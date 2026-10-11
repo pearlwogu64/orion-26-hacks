@@ -3,6 +3,7 @@ import { View, Text, Image, TouchableOpacity, ActivityIndicator, StyleSheet } fr
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { analyzePhoto } from "../lib/api";
 import { colors } from "../lib/theme";
+import { saveLastResult } from "../lib/storage";
 
 export default function PreviewScreen() {
   const { uri } = useLocalSearchParams<{ uri: string }>();
@@ -14,8 +15,9 @@ export default function PreviewScreen() {
     const result = await analyzePhoto(uri); // never throws
     setLoading(false);
     // Check status first, as the contract says.
-    if (result.status === "success") {
-      router.push({ pathname: "/results", params: { uri, result: JSON.stringify(result) } });
+           if (result.status === "success") {
+         await saveLastResult(result, uri);
+         router.push({ pathname: "/results", params: { uri, result: JSON.stringify(result) } });
     } else {
       router.push({
         pathname: "/error",
