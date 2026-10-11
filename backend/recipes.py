@@ -6,14 +6,11 @@ import json
 from typing import List, Literal, Optional
 
 from fastapi import APIRouter, HTTPException
-from google import genai
 from google.genai import types
 from pydantic import BaseModel
 
-# Use the same model name your /analyze endpoint already uses
-MODEL = "gemini-3.5-flash-lite"
+from gemini_client import get_client, model_name
 
-client = genai.Client()  # reads GEMINI_API_KEY from the environment
 router = APIRouter()
 
 
@@ -90,8 +87,8 @@ def get_recipes(req: RecipeRequest):
         days_left="unknown" if req.days_left is None else req.days_left,
     )
     try:
-        resp = client.models.generate_content(
-            model=MODEL,
+        resp = get_client().models.generate_content(
+            model=model_name(),
             contents=prompt,
             config=types.GenerateContentConfig(
                 response_mime_type="application/json",
