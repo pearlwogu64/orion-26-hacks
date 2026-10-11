@@ -134,7 +134,7 @@ Call this after `/analyze` to log a rescued item and get savings.
 ```json
 { "item": "banana", "action": "eat" }
 ```
-Pass `item` and `action` straight from the `/scan` response.
+Pass `item.name` and `recommendation.action` straight from the `/analyze` response.
 
 **Response (rescued):**
 ```json
@@ -163,7 +163,7 @@ Pass `item` and `action` straight from the `/scan` response.
 const res = await fetch(`${BASE_URL}/impact`, {
   method: "POST",
   headers: { "Content-Type": "application/json" },
-  body: JSON.stringify({ item: result.item, action: result.action }),
+  body: JSON.stringify({ item: result.item.name, action: result.recommendation.action }),
 });
 const impact = await res.json();
 ```
