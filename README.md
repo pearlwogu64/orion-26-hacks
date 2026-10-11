@@ -1,22 +1,17 @@
-<<<<<<< HEAD
 # Ripe 🍓
 
-Ripe is a food-waste app for fruits and veggies that tells you which produce in your fridge will spoil first, before it does. Snap a photo of your grocery receipt or your fridge, and Ripe picks out your produce, estimates how fresh each item is, and ranks everything by how soon it’ll go bad. A model trained on fruits and vegetables across rot stages, from fresh to inedible, handles the freshness estimate. Ripe then suggests recipes that use up your at-risk produce first, so less ends up in the trash and more ends up on your plate.
+Ripe is a food-waste app for fruits and veggies that tells you how fresh a piece of produce is before it goes bad. Snap a photo of a single fruit or veggie and Ripe identifies it, estimates how fresh it is, and tells you how many days it has left. A model trained on fruits and vegetables across rot stages, from fresh to inedible, handles the freshness estimate. Ripe then tells you what to do with it (eat it now, cook it, freeze it, or compost it) and suggests a recipe to use it up, so less ends up in the trash and more ends up on your plate.
 
 **MVP 🏆**
-- Photo Upload (receipt + fridge)
+- Photo Upload
 - Item Recognition (Gemini API)
 - Freshness / Rot-Stage Classifier
-- Spoil-First Ranking
+- Action Recommendation (eat now / cook / freeze / compost)
 - Recipe Suggestions (use-it-up first)
-- Fridge Inventory View
 
 **Stretch Goals 🌟**
 - Expiration Push Notifications
 - Waste Tracker (money + CO₂ saved)
-- Shopping List Based on Habits
-- H-E-B Integration (pitch angle: receipts, deals, local sourcing)
-- Future Implementation: Household Sharing (shared fridge for roommates/families)
 
 **Tech Stack 💻**
 IDE: VSCode
@@ -25,7 +20,7 @@ Wireframe: Figma
 
 - Frontend: React Native (via Expo)
 - Backend API: FastAPI (Python)
-- Image + Receipt Parsing: Gemini API
+- Image Parsing: Gemini API
 - Freshness Model: TensorFlow / Keras (transfer learning on MobileNetV2)
 - Dataset: Kaggle "Fruits Fresh and Rotten" dataset
 - Database: Supabase (PostgreSQL)
@@ -44,7 +39,6 @@ Wireframe: Figma
 - Backend 1: Pearl
 - Backend 2: Prakhya
 
-=======
 ## Backend API
 
 Base URL (local): `http://localhost:8000`
@@ -55,7 +49,7 @@ Interactive docs: `http://localhost:8000/docs`
 ---
 
 ### POST /scan
-Analyzes a food photo and returns a freshness score.
+Analyzes a photo of a single fruit or veggie and returns a freshness score.
 
 **Request:** `multipart/form-data` with the image under the field name `file`
 
@@ -151,4 +145,3 @@ Totals reset when the server restarts.
 
 ### Impact data source
 CO2 values are kg CO2e per kg of food from Our World in Data (Poore & Nemecek, 2018, *Science*). Weights and prices are per-item estimates.
->>>>>>> Prakhya-backend
