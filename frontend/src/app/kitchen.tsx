@@ -98,7 +98,14 @@ export default function KitchenScreen() {
               const isOpen = open === i;
               return (
                 <Card key={i} style={[styles.recipe, i === 0 && styles.recipeFeatured]}>
-                  {i === 0 && <Pill dark>Top rescue match</Pill>}
+                  {rec.image_url ? (
+                    <Image source={{ uri: rec.image_url }} style={[styles.recipeImg, i === 0 && styles.recipeImgBig]} />
+                  ) : (
+                    <View style={[styles.recipeImg, styles.recipeImgEmpty, i === 0 && styles.recipeImgBig]}>
+                      <Text style={{ fontSize: 32 }}>🍳</Text>
+                    </View>
+                  )}
+                  {i === 0 && <Pill yellow>Top rescue match</Pill>}
                   <View style={styles.metaRow}>
                     <Text style={styles.meta}>⏱ {rec.time_minutes} min</Text>
                     <Text style={styles.meta}>· {rec.difficulty}</Text>
@@ -132,6 +139,10 @@ export default function KitchenScreen() {
               );
             })}
           </View>
+
+          {data.recipes.some((rec) => rec.image_url) && (
+            <Text style={styles.credit}>Photos from Unsplash</Text>
+          )}
 
           {data.hacks.length > 0 && (
             <>
@@ -167,7 +178,7 @@ const styles = StyleSheet.create({
   muted: { fontSize: 14, color: colors.muted, textAlign: "center", marginTop: 6 },
   muted2: { fontSize: 13, color: colors.muted, marginTop: 4 },
   emptyTitle: { fontSize: 20, fontWeight: "800", color: colors.text },
-  header: { flexDirection: "row", alignItems: "center", gap: 16, flexWrap: "wrap", backgroundColor: colors.soft },
+  header: { flexDirection: "row", alignItems: "center", gap: 16, flexWrap: "wrap", backgroundColor: colors.yellowSoft, borderColor: colors.yellow },
   thumb: { width: 70, height: 70, borderRadius: 14, backgroundColor: colors.border },
   title: { fontSize: 26, fontWeight: "800", color: colors.text, textTransform: "capitalize", marginTop: 2 },
   badge: { borderRadius: 999, paddingHorizontal: 12, paddingVertical: 6 },
@@ -175,6 +186,10 @@ const styles = StyleSheet.create({
   headRow: { marginTop: 24, marginBottom: 12 },
   grid: { flexDirection: "row", flexWrap: "wrap", gap: 14 },
   recipe: { flexGrow: 1, flexBasis: 260, gap: 8 },
+  recipeImg: { width: "100%", height: 150, borderRadius: 12, backgroundColor: colors.yellowSoft },
+  recipeImgBig: { height: 200 },
+  recipeImgEmpty: { alignItems: "center", justifyContent: "center" },
+  credit: { fontSize: 11, color: colors.muted, marginTop: 8 },
   recipeFeatured: { flexBasis: 360, borderColor: colors.primary, borderWidth: 1.5 },
   metaRow: { flexDirection: "row", gap: 6 },
   meta: { fontSize: 12, color: colors.muted, textTransform: "capitalize" },
@@ -183,7 +198,7 @@ const styles = StyleSheet.create({
   detail: { backgroundColor: colors.soft, borderRadius: 12, padding: 12, marginTop: 4 },
   detailLine: { fontSize: 14, color: colors.text, marginTop: 4, lineHeight: 20 },
   hack: { flexGrow: 1, flexBasis: 300, gap: 6 },
-  hackIcon: { width: 36, height: 36, borderRadius: 10, backgroundColor: colors.mint, alignItems: "center", justifyContent: "center" },
+  hackIcon: { width: 36, height: 36, borderRadius: 10, backgroundColor: colors.yellow, alignItems: "center", justifyContent: "center" },
   primaryBtn: { backgroundColor: colors.primary, borderRadius: 12, paddingVertical: 12, paddingHorizontal: 18, alignItems: "center", marginTop: 6 },
   primaryBtnText: { color: colors.primaryText, fontWeight: "700", fontSize: 14 },
   outlineBtn: { borderWidth: 1, borderColor: colors.border, borderRadius: 12, paddingVertical: 11, paddingHorizontal: 18, alignItems: "center", marginTop: 6 },

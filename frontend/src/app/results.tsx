@@ -13,7 +13,7 @@ import { Card, Eyebrow, Pill } from "../components/ui";
 const TIERS = [
   { range: "0–30", name: "Crisp fresh", width: 30, color: "#1E4D36" },
   { range: "30–60", name: "Eat soon", width: 30, color: "#3E8A5E" },
-  { range: "60–85", name: "Rescue & cook", width: 25, color: "#A8EBBE" },
+  { range: "60–85", name: "Rescue & cook", width: 25, color: "#F5C842" },
   { range: "85–100", name: "Compost", width: 15, color: "#6B4423" },
 ];
 
@@ -99,7 +99,7 @@ export default function ResultsScreen() {
           <Eyebrow>Freshness verdict</Eyebrow>
           <Text style={styles.title}>{item.name}</Text>
           <View style={styles.pillRow}>
-            <Pill>{item.category}</Pill>
+            <Pill yellow>{item.category}</Pill>
             <Pill dark>{freshness.confidence} confidence</Pill>
           </View>
         </View>
@@ -188,7 +188,7 @@ export default function ResultsScreen() {
 const styles = StyleSheet.create({
   muted: { fontSize: 14, color: colors.muted, textAlign: "center", marginTop: 6 },
   emptyTitle: { fontSize: 22, fontWeight: "800", color: colors.text },
-  header: { flexDirection: "row", alignItems: "center", gap: 16, flexWrap: "wrap", backgroundColor: colors.soft },
+  header: { flexDirection: "row", alignItems: "center", gap: 16, flexWrap: "wrap", backgroundColor: colors.yellowSoft, borderColor: colors.yellow },
   thumb: { width: 76, height: 76, borderRadius: 14, backgroundColor: colors.border },
   title: { fontSize: 28, fontWeight: "800", color: colors.text, textTransform: "capitalize", marginTop: 2 },
   pillRow: { flexDirection: "row", gap: 8, marginTop: 8, flexWrap: "wrap" },
@@ -208,10 +208,10 @@ const styles = StyleSheet.create({
   ringPillText: { fontSize: 11, fontWeight: "700", color: "#FFFFFF" },
   small: { fontSize: 12, color: colors.muted },
   window: {
-    flexDirection: "row", alignItems: "center", gap: 12, backgroundColor: colors.soft,
+    flexDirection: "row", alignItems: "center", gap: 12, backgroundColor: colors.yellowSoft,
     borderRadius: 14, padding: 14, marginBottom: 18,
   },
-  windowIcon: { width: 40, height: 40, borderRadius: 10, backgroundColor: colors.mint, alignItems: "center", justifyContent: "center" },
+  windowIcon: { width: 40, height: 40, borderRadius: 10, backgroundColor: colors.yellow, alignItems: "center", justifyContent: "center" },
   windowText: { fontSize: 18, fontWeight: "800", color: colors.text, marginTop: 2 },
   specWrap: { height: 22, justifyContent: "center", marginTop: 8 },
   specBar: { flexDirection: "row", height: 10, borderRadius: 5, overflow: "hidden" },
@@ -240,6 +240,6 @@ const styles = StyleSheet.create({
   barSub: { color: "#AEB8B2", fontSize: 12, marginTop: 2 },
   barGhost: { backgroundColor: colors.darkSoft, borderRadius: 12, paddingVertical: 12, paddingHorizontal: 16 },
   barGhostText: { color: "#FFFFFF", fontWeight: "600", fontSize: 14 },
-  barMint: { backgroundColor: colors.mint, borderRadius: 12, paddingVertical: 12, paddingHorizontal: 16 },
-  barMintText: { color: colors.mintText, fontWeight: "800", fontSize: 14 },
+  barMint: { backgroundColor: colors.yellow, borderRadius: 12, paddingVertical: 12, paddingHorizontal: 16 },
+  barMintText: { color: colors.yellowText, fontWeight: "800", fontSize: 14 },
 });
